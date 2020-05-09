@@ -1,0 +1,12 @@
+FROM node:12.16.2-alpine3.11
+
+ENV PATH $PATH:/usr/lib/jvm/java-11-openjdk/jre/bin:/usr/lib/jvm/java-11-openjdk/bin
+
+RUN apk update
+RUN apk --no-cache add openjdk11 --repository=http://dl-cdn.alpinelinux.org/alpine/edge/community
+
+RUN apk update
+RUN apk add --no-cache git openssh
+
+ADD git_key /root/.ssh/id_rsa
+ADD git_key.pub /root/.ssh/id_rsa.pub

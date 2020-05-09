@@ -17,41 +17,56 @@ describe('Users Controller', () => {
   });
 
   it('should get all users', () => {
-    expect(controller.getAllUSers().length).toBe(2);
+    const user = {
+      name: 'Ruben'
+    }
+    controller.newUser(user);
+    expect(controller.getAllUsers().length).toBe(1);
   })
 
   it('should get user by id', () => {
-    const user = controller.getUserById('0');
-    expect(user).toBeDefined();
+    const user = {
+      name: 'Ruben'
+    }
+    const newUser = controller.newUser(user);
+    const userById = controller.getUserById(newUser.id);
+    expect(userById).toBeDefined();
   })
 
   it('should new user', () => {
-    const actualSize = controller.getAllUSers().length;
+    const actualSize = controller.getAllUsers().length;
     const user = {
       id: '2',
       name: 'Mateo'
     }
     const newUser = controller.newUser(user);
     expect(newUser).toBe(newUser);
-    const postSize = controller.getAllUSers().length;
+    const postSize = controller.getAllUsers().length;
     expect(postSize).toBe(actualSize + 1);
   })
 
   it('should update user', () => {
+    const user = {
+      name: 'Ruben'
+    }
+    const newUser = controller.newUser(user);
     const updateUser = {
-      id: '0',
+      id: newUser.id,
       name: 'Ruben Aguilera'
     }
-    const user = controller.getUserById(updateUser.id);
     controller.updateUser(updateUser.id, updateUser);
     expect(user.name).not.toEqual(updateUser.name);
 
   })
 
   it('should delete user', () => {
-    const actualSize = controller.getAllUSers().length;
-    controller.deleteUser('0');
-    const postDeleteSize = controller.getAllUSers().length;
+    const user = {
+      name: 'Ruben'
+    }
+    const newUser = controller.newUser(user);
+    const actualSize = controller.getAllUsers().length;
+    controller.deleteUser(newUser.id);
+    const postDeleteSize = controller.getAllUsers().length;
     expect(postDeleteSize).toBe(actualSize - 1);
   })
 

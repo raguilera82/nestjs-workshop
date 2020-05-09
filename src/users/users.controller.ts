@@ -6,20 +6,8 @@ export class UsersController {
 
     users: UserDTO[] = [];
 
-    constructor() {
-        const user1: UserDTO = {
-            id: '0',
-            name: 'Ruben'
-        }
-        const user2: UserDTO = {
-            id: '1',
-            name: 'Lucia'
-        }
-        this.users = [user1, user2];
-    }
-
     @Get()
-    getAllUSers(): UserDTO[] {
+    getAllUsers(): UserDTO[] {
         return this.users;
     }
 

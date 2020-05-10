@@ -18,8 +18,8 @@
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "test:e2e": "jest --config ./test/jest-e2e.json --runInBand --detectOpenHandles",
-    "verify": "docker-compose up -d && npm run lint && npm run test:cov && npm run test:e2e && docker-compose down -v"
+    "test:e2e": "jest --config ./test/jest-e2e.json --runInBand --detectOpenHandles --coverage",
+    "verify": "docker-compose up -d && npm run lint && npm run test:cov && npm run test:e2e && ts-node ./merge-coverage.ts --report coverage/unit/coverage-final.json --report coverage/e2e/coverage-final.json && docker-compose down -v"
   },
   "dependencies": {
     "@nestjs/common": "^7.0.0",
@@ -48,6 +48,8 @@
     "eslint": "^6.8.0",
     "eslint-config-prettier": "^6.10.0",
     "eslint-plugin-import": "^2.20.1",
+    "fs-extra": "^9.0.0",
+    "istanbul-api": "^3.0.0",
     "jest": "^25.1.0",
     "prettier": "^1.19.1",
     "supertest": "^4.0.2",
@@ -68,7 +70,15 @@
     "transform": {
       "^.+\\.(t|j)s$": "ts-jest"
     },
-    "coverageDirectory": "../coverage",
+    "coverageReporters": [
+      "json", "lcov", "text", "html"
+    ],
+    "coverageDirectory": "../coverage/unit",
+    "coveragePathIgnorePatterns": [
+      ".module.ts$",
+      ".spec.ts$",
+      "src/main.ts"
+    ],
     "testEnvironment": "node"
   }
 }

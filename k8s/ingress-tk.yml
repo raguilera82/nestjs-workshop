@@ -1,0 +1,15 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: nest-workshop
+  namespace: apps
+
+spec:
+  entryPoints:
+    - web
+  routes:
+  - match: Host(`local-apps.kairosds.com`) && PathPrefix('/nest-workshop')
+    kind: Rule
+    services:
+    - name: nest-workshop
+      port: 3000

@@ -1,0 +1,15 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: nest-workshop
+  namespace: apps
+  annotations:
+    kubernetes.io/ingress.class: traefik
+spec:
+  rules:
+  - host: local-apps.kairosds.com
+    http:
+      paths:
+      - backend:
+          serviceName: nest-workshop
+          servicePort: 3000

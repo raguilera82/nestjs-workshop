@@ -1,34 +1,30 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { UserDTO } from './user.dto';
+import { UsersRepository } from './users.repository';
 
 @Injectable()
 export class UsersService {
 
-    users: UserDTO[] = [];
+    constructor(@Inject('usersRepository') private usersRepository: UsersRepository){}
 
     getAllUsers(): UserDTO[] {
-        return this.users;
+        return this.usersRepository.getAllUsers();
     }
 
     getUserById(id: string): UserDTO {
-        const user = this.users.find(user => user.id == id);
-        return user;
+        return this.usersRepository.getUserById(id);
     }
 
     newUser(user: UserDTO): UserDTO {
-        const newUser = {...user, id: ''+(this.users.length)}
-        this.users = [...this.users, newUser];
-        return newUser;
+        return this.usersRepository.newUser(user);
     }
 
     updateUser(id: string, user: UserDTO): UserDTO {
-        this.users = this.users.filter(user => user.id !== id);
-        this.users = [...this.users, this.newUser(user)];
-        return user;
+        return this.usersRepository.updateUser(id, user);
     }
 
     deleteUser(id: string) {
-        this.users = this.users.filter(user => user.id !== id);
+        this.usersRepository.deleteUser(id);
     }
 
 }

@@ -1,19 +1,15 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { UsersInmemoryRepositoryService } from './users-inmemory-repository.service';
-import { UsersService } from './users.service';
 
-describe('UsersService', () => {
-  let service: UsersService;
+describe('UsersInmemoryRepositoryService', () => {
+  let service: UsersInmemoryRepositoryService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [UsersService, {
-        provide: 'usersRepository',
-        useClass: UsersInmemoryRepositoryService
-      }],
+      providers: [UsersInmemoryRepositoryService],
     }).compile();
 
-    service = module.get<UsersService>(UsersService);
+    service = module.get<UsersInmemoryRepositoryService>(UsersInmemoryRepositoryService);
   });
 
   it('should be defined', () => {
@@ -73,5 +69,5 @@ describe('UsersService', () => {
     const postDeleteSize = service.getAllUsers().length;
     expect(postDeleteSize).toBe(actualSize - 1);
   })
-
+  
 });

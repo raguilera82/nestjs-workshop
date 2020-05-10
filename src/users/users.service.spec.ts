@@ -1,49 +1,47 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { UsersController } from './users.controller';
 import { UsersService } from './users.service';
 
-describe('Users Controller', () => {
-  let controller: UsersController;
+describe('UsersService', () => {
+  let service: UsersService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      controllers: [UsersController],
-      providers: [UsersService]
+      providers: [UsersService],
     }).compile();
 
-    controller = module.get<UsersController>(UsersController);
+    service = module.get<UsersService>(UsersService);
   });
 
   it('should be defined', () => {
-    expect(controller).toBeDefined();
+    expect(service).toBeDefined();
   });
 
   it('should get all users', () => {
     const user = {
       name: 'Ruben'
     }
-    controller.newUser(user);
-    expect(controller.getAllUsers().length).toBe(1);
+    service.newUser(user);
+    expect(service.getAllUsers().length).toBe(1);
   })
 
   it('should get user by id', () => {
     const user = {
       name: 'Ruben'
     }
-    const newUser = controller.newUser(user);
-    const userById = controller.getUserById(newUser.id);
+    const newUser = service.newUser(user);
+    const userById = service.getUserById(newUser.id);
     expect(userById).toBeDefined();
   })
 
   it('should new user', () => {
-    const actualSize = controller.getAllUsers().length;
+    const actualSize = service.getAllUsers().length;
     const user = {
       id: '2',
       name: 'Mateo'
     }
-    const newUser = controller.newUser(user);
+    const newUser = service.newUser(user);
     expect(newUser).toBe(newUser);
-    const postSize = controller.getAllUsers().length;
+    const postSize = service.getAllUsers().length;
     expect(postSize).toBe(actualSize + 1);
   })
 
@@ -51,12 +49,12 @@ describe('Users Controller', () => {
     const user = {
       name: 'Ruben'
     }
-    const newUser = controller.newUser(user);
+    const newUser = service.newUser(user);
     const updateUser = {
       id: newUser.id,
       name: 'Ruben Aguilera'
     }
-    controller.updateUser(updateUser.id, updateUser);
+    service.updateUser(updateUser.id, updateUser);
     expect(user.name).not.toEqual(updateUser.name);
 
   })
@@ -65,10 +63,10 @@ describe('Users Controller', () => {
     const user = {
       name: 'Ruben'
     }
-    const newUser = controller.newUser(user);
-    const actualSize = controller.getAllUsers().length;
-    controller.deleteUser(newUser.id);
-    const postDeleteSize = controller.getAllUsers().length;
+    const newUser = service.newUser(user);
+    const actualSize = service.getAllUsers().length;
+    service.deleteUser(newUser.id);
+    const postDeleteSize = service.getAllUsers().length;
     expect(postDeleteSize).toBe(actualSize - 1);
   })
 

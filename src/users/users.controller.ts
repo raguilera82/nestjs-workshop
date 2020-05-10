@@ -8,27 +8,27 @@ export class UsersController {
     constructor(private usersService: UsersService){}
 
     @Get()
-    getAllUsers(): UserDTO[] {
-        return this.usersService.getAllUsers();
+    async getAllUsers(): Promise<UserDTO[]> {
+        return await this.usersService.getAllUsers();
     }
 
     @Get(':id')
-    getUserById(@Param('id') id: string): UserDTO {
-        return this.usersService.getUserById(id);
+    async getUserById(@Param('id') id: string): Promise<UserDTO> {
+        return await this.usersService.getUserById(id);
     }
 
     @Post()
-    newUser(@Body() user: UserDTO): UserDTO {
-        return this.usersService.newUser(user);
+    async newUser(@Body() user: UserDTO): Promise<UserDTO> {
+        return await this.usersService.newUser(user);
     }
 
     @Put(':id')
-    updateUser(@Param('id') id: string, @Body() user: UserDTO): UserDTO {
-        return this.usersService.updateUser(id, user);
+    async updateUser(@Param('id') id: string, @Body() user: UserDTO): Promise<UserDTO> {
+        return await this.usersService.updateUser(id, user);
     }
 
     @Delete(':id')
-    deleteUser(@Param('id') id: string) {
+    async deleteUser(@Param('id') id: string): Promise<void> {
         this.usersService.deleteUser(id);
     }
 

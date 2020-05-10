@@ -20,57 +20,57 @@ describe('UsersService', () => {
     expect(service).toBeDefined();
   });
 
-  it('should get all users', () => {
+  it('should get all users', async () => {
     const user = {
       name: 'Ruben'
     }
-    service.newUser(user);
-    expect(service.getAllUsers().length).toBe(1);
+    await service.newUser(user);
+    expect((await service.getAllUsers()).length).toBe(1);
   })
 
-  it('should get user by id', () => {
+  it('should get user by id', async () => {
     const user = {
       name: 'Ruben'
     }
-    const newUser = service.newUser(user);
-    const userById = service.getUserById(newUser.id);
+    const newUser = await service.newUser(user);
+    const userById = await service.getUserById(newUser.id);
     expect(userById).toBeDefined();
   })
 
-  it('should new user', () => {
-    const actualSize = service.getAllUsers().length;
+  it('should new user', async () => {
+    const actualSize = (await service.getAllUsers()).length;
     const user = {
       id: '2',
       name: 'Mateo'
     }
-    const newUser = service.newUser(user);
+    const newUser = await service.newUser(user);
     expect(newUser).toBe(newUser);
-    const postSize = service.getAllUsers().length;
+    const postSize = (await service.getAllUsers()).length;
     expect(postSize).toBe(actualSize + 1);
   })
 
-  it('should update user', () => {
+  it('should update user', async () => {
     const user = {
       name: 'Ruben'
     }
-    const newUser = service.newUser(user);
+    const newUser = await service.newUser(user);
     const updateUser = {
       id: newUser.id,
       name: 'Ruben Aguilera'
     }
-    service.updateUser(updateUser.id, updateUser);
+    await service.updateUser(updateUser.id, updateUser);
     expect(user.name).not.toEqual(updateUser.name);
 
   })
 
-  it('should delete user', () => {
+  it('should delete user', async () => {
     const user = {
       name: 'Ruben'
     }
-    const newUser = service.newUser(user);
-    const actualSize = service.getAllUsers().length;
+    const newUser = await service.newUser(user);
+    const actualSize = (await service.getAllUsers()).length;
     service.deleteUser(newUser.id);
-    const postDeleteSize = service.getAllUsers().length;
+    const postDeleteSize = (await service.getAllUsers()).length;
     expect(postDeleteSize).toBe(actualSize - 1);
   })
 

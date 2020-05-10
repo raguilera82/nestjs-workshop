@@ -30,7 +30,7 @@ describe('UsersController (e2e)', () => {
     const newUserRequest = await server.post('/users').type('form')
     .send(newUser).expect(201);
     expect(newUserRequest.body.name).toBe(newUser.name);
-    expect(newUserRequest.body.id).toBe(''+(currentSize));
+    expect(newUserRequest.body.id).toBe(currentSize + 1);
     const postNewRequest = await server.get('/users').expect(200);
     const postNewSize = postNewRequest.body.length;
     expect(postNewSize).toBe(currentSize + 1);

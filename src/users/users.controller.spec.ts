@@ -22,40 +22,41 @@ describe('Users Controller', () => {
     expect(controller).toBeDefined();
   });
 
-  it('should get all users', () => {
+  it('should get all users', async () => {
     const user = {
       name: 'Ruben'
     }
     controller.newUser(user);
-    expect(controller.getAllUsers().length).toBe(1);
+    const getAllUsers = await controller.getAllUsers();
+    expect(getAllUsers.length).toBe(1);
   })
 
-  it('should get user by id', () => {
+  it('should get user by id', async () => {
     const user = {
       name: 'Ruben'
     }
-    const newUser = controller.newUser(user);
-    const userById = controller.getUserById(newUser.id);
+    const newUser = await controller.newUser(user);
+    const userById = await controller.getUserById(newUser.id);
     expect(userById).toBeDefined();
   })
 
-  it('should new user', () => {
-    const actualSize = controller.getAllUsers().length;
+  it('should new user', async () => {
+    const actualSize = await controller.getAllUsers();
     const user = {
       id: '2',
       name: 'Mateo'
     }
-    const newUser = controller.newUser(user);
+    const newUser = await controller.newUser(user);
     expect(newUser).toBe(newUser);
-    const postSize = controller.getAllUsers().length;
-    expect(postSize).toBe(actualSize + 1);
+    const postSize = await controller.getAllUsers();
+    expect(postSize.length).toBe(actualSize.length + 1);
   })
 
-  it('should update user', () => {
+  it('should update user', async () => {
     const user = {
       name: 'Ruben'
     }
-    const newUser = controller.newUser(user);
+    const newUser = await controller.newUser(user);
     const updateUser = {
       id: newUser.id,
       name: 'Ruben Aguilera'
@@ -65,15 +66,15 @@ describe('Users Controller', () => {
 
   })
 
-  it('should delete user', () => {
+  it('should delete user', async () => {
     const user = {
       name: 'Ruben'
     }
-    const newUser = controller.newUser(user);
-    const actualSize = controller.getAllUsers().length;
-    controller.deleteUser(newUser.id);
-    const postDeleteSize = controller.getAllUsers().length;
-    expect(postDeleteSize).toBe(actualSize - 1);
+    const newUser = await controller.newUser(user);
+    const actualSize = await controller.getAllUsers();
+    await controller.deleteUser(newUser.id);
+    const postDeleteSize = await controller.getAllUsers();
+    expect(postDeleteSize.length).toBe(actualSize.length - 1);
   })
 
 });

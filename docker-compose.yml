@@ -1,0 +1,37 @@
+version: '3.1'
+
+services:
+
+  nest-workshop:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports: 
+      - ${NEST_EXTERNAL_PORT}:3000
+    environment:
+      - DB_HOST=${DB_HOST}
+      - DB_PORT=${DB_PORT}
+      - DB_USER=${DB_USER}
+      - DB_PASS=${DB_PASS}
+      - DB_NAME=${DB_NAME}
+    networks:
+      - ws-network
+
+  psql-db:
+    image: postgres:12.1-alpine
+    ports:
+      - ${POSTGRES_PORT_EXTERNAL}:5432
+    environment:
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASS}
+      - POSTGRES_DB=${DB_NAME}
+#    volumes:
+#      - psql-db-data:/var/lib/postgresql/data
+    networks:
+      - ws-network
+
+#volumes:
+#  psql-db-data:
+
+networks:
+  ws-network:

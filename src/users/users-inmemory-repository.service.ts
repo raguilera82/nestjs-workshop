@@ -1,28 +1,28 @@
 import { Injectable } from '@nestjs/common';
-import { UserDTO } from './user.dto';
+import { User } from './user.model';
 import { UsersRepository } from './users.repository';
 
 @Injectable()
 export class UsersInmemoryRepositoryService implements UsersRepository{
 
-    users: UserDTO[] = [];
+    users: User[] = [];
 
-    getAllUsers(): UserDTO[] {
+    getAllUsers(): User[] {
         return this.users;
     }
 
-    getUserById(id: string): UserDTO {
+    getUserById(id: string): User {
         const user = this.users.find(user => user.id == id);
         return user;
     }
 
-    newUser(user: UserDTO): UserDTO {
+    newUser(user: User): User {
         const newUser = {...user, id: ''+(this.users.length)}
         this.users = [...this.users, newUser];
         return newUser;
     }
 
-    updateUser(id: string, user: UserDTO): UserDTO {
+    updateUser(id: string, user: User): User {
         this.users = this.users.filter(user => user.id !== id);
         this.users = [...this.users, this.newUser(user)];
         return user;

@@ -1,0 +1,35 @@
+version: '3.1'
+
+services:
+
+  oikos-back:
+    build:
+      context: .
+      dockerfile: Dockerfile-machine
+    environment:
+      - DB_HOST=${DB_HOST}
+      - DB_PORT=${DB_PORT}
+      - DB_USER=${DB_USER}
+      - DB_PASS=${DB_PASS}
+      - DB_NAME=${DB_NAME}
+    networks:
+      - oikos-network
+
+  oikos-db:
+    image: postgres:12.1-alpine
+    ports:
+      - ${POSTGRES_PORT_EXTERNAL}:5432
+    environment:
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+      - POSTGRES_DB=${DB_NAME}
+    volumes:
+      - oikos-db-data:/var/lib/postgresql/data
+    networks:
+      - oikos-network
+
+volumes:
+  oikos-db-data:
+
+networks:
+  oikos-network:

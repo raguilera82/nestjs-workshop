@@ -1,12 +1,14 @@
 import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 
-@Entity()
+@Entity('users')
 export class UserEntity {
 
     @PrimaryGeneratedColumn()
     id?: string;
 
-    @Column()
+    @Column({
+        unique: true
+    })
     name: string;
 
 }

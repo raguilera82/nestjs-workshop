@@ -30,7 +30,6 @@ describe('UsersController (e2e)', () => {
     const newUserRequest = await server.post('/users').type('form')
     .send(newUser).expect(201);
     expect(newUserRequest.body.name).toBe(newUser.name);
-    expect(newUserRequest.body.id).toBe(currentSize + 1);
     const postNewRequest = await server.get('/users').expect(200);
     const postNewSize = postNewRequest.body.length;
     expect(postNewSize).toBe(currentSize + 1);
@@ -43,7 +42,7 @@ describe('UsersController (e2e)', () => {
       id: newUserRequest.body.id,
       name: 'Mateo Aguilera'
     }
-    const updateUserRequest = await server.put(`/users/${updateUser.id}`)
+    const updateUserRequest = await server.put(`/users/${newUserRequest.body.id}`)
     .expect(200).type('form').send(updateUser);
     expect(updateUserRequest.body.name).toEqual(updateUser.name);
 

@@ -1,35 +1,38 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { UserDTO } from './user.dto';
-import { User } from './user.model';
+import { UserEntity } from './user.entity';
+import { UserMapper } from './user.mapper';
 import { UsersRepository } from './users.repository';
 
 @Injectable()
 export class UsersService {
 
-    constructor(@Inject('usersRepository') private usersRepository: UsersRepository){}
+    private mapper: UserMapper = new UserMapper();
+
+    constructor(private usersRepository: UsersRepository){}
 
     async getAllUsers(): Promise<UserDTO[]> {
-        const users: User[] = await this.usersRepository.getAllUsers()
-        return users.map(user => new UserDTO(user));
+        const users: UserEntity[] = await this.usersRepository.getAllUsers()
+        return users.map(user => this.mapper.entityToDto(user));
     }
 
     async getUserById(id: string): Promise<UserDTO> {
-        const user: User = await this.usersRepository.getUserById(id);
-        return new UserDTO(user);
+        const user: UserEntity = await this.usersRepository.getUserById(id);
+        return this.mapper.entityToDto(user);
     }
 
-    async newUser(user: UserDTO): Promise<UserDTO> {
-        const newUser: User = await this.usersRepository.newUser(user)
-        return new UserDTO(newUser);
+    async newUser(userDTO: UserDTO): Promise<UserDTO> {
+        const newUser: UserEntity = await this.usersRepository.newUser(userDTO);
+        return this.mapper.entityToDto(newUser);
     }
 
-    async updateUser(id: string, user: UserDTO): Promise<UserDTO> {
-        const updateUser = await this.usersRepository.updateUser(id, user);
-        return new UserDTO(updateUser);
+    async updateUser(id: string, userDTO: UserDTO): Promise<UserDTO> {
+        const updateUser = await this.usersRepository.updateUser(id, userDTO);
+        return this.mapper.entityToDto(updateUser);
     }
 
-    deleteUser(id: string) {
-        this.usersRepository.deleteUser(id);
+    async deleteUser(id: string): Promise<void> {
+        await this.usersRepository.deleteUser(id);
     }
 
 }

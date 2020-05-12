@@ -1,16 +1,40 @@
+import { Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { DeleteResult, Repository } from 'typeorm';
 import { UserDTO } from './user.dto';
-import { User } from './user.model';
+import { UserEntity } from './user.entity';
+import { UserMapper } from './user.mapper';
 
-export interface UsersRepository {
+@Injectable()
+export class UsersRepository {
 
-    getAllUsers(): User[] | Promise<User[]>;
+    private mapper: UserMapper = new UserMapper();
 
-    getUserById(id: string): User | Promise<User>;
+    constructor(@InjectRepository(UserEntity) private usersRepository: Repository<UserEntity>){}
 
-    newUser(user: UserDTO): User | Promise<User>;
+    getAllUsers(): Promise<UserEntity[]> {
+        return this.usersRepository.find();
+    }
 
-    updateUser(id: string, user: UserDTO): User | Promise<User>;
+    getUserById(id: string): Promise<UserEntity> {
+        return this.usersRepository.findOne(id);
+    }
 
-    deleteUser(id: string): void;
+    newUser(userDTO: UserDTO): Promise<UserEntity> {
+        const newUser = this.mapper.dtoToEntity(userDTO);
+        return this.usersRepository.save(newUser);
+    }
+
+    async updateUser(id: string, userDTO: UserDTO): Promise<UserEntity> {
+        userDTO.id = id;
+        const updateUser = this.mapper.dtoToEntity(userDTO);
+        await this.usersRepository.update(id, updateUser);
+        return this.usersRepository.findOne(id);
+
+    }
+
+    deleteUser(id: string): Promise<DeleteResult> {
+       return this.usersRepository.delete(id);
+    }
 
 }

@@ -7,7 +7,8 @@
             "name": "Debug Nest Framework",
             "runtimeArgs": ["--no-lazy", "-r", "ts-node/register"],
             "args": ["${workspaceFolder}/src/main.ts"],
-            "autoAttachChildProcesses": true
+            "autoAttachChildProcesses": true,
+            "envFile": "${workspaceFolder}/.env"
         }
     ]
 }

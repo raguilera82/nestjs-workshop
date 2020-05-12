@@ -33,8 +33,17 @@
 ```bash
 $ npm install
 ```
+You need an instance of Docker and Docker Compose on your local machine
 
 ## Running the app
+
+Before, you need to up the database
+
+```bash
+$ npm run db:up
+```
+
+After, running the application
 
 ```bash
 # development
@@ -48,6 +57,14 @@ $ npm run start:prod
 ```
 
 ## Test
+
+To run all test and calculates coverage, it is important the database is down.
+
+```bash
+$ npm run verify
+```
+
+For invidual executions:
 
 ```bash
 # unit tests

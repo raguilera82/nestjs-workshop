@@ -7,7 +7,7 @@ export class UserDTO {
     @ApiProperty()
     readonly name: string;
 
-     constructor(id: string, name: string) {
+    constructor(id: string, name: string) {
         this.id = id;
         this.name = name;
         console.log('Creo User DTO para ' + this.name);

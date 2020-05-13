@@ -1,0 +1,16 @@
+config:
+  target: "http://localhost:3003/nest-workshop"
+  payload:
+    path: "users.csv"
+    fields:
+      - "name"
+    order: "sequence"
+  phases:
+    - duration: 10
+      arrivalRate: 1
+scenarios:
+  - flow:
+    - post:
+        url: "/users"
+        json:
+          name: "{{ name }}"

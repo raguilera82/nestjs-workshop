@@ -7,9 +7,10 @@ import { UsersRepository } from './users.repository';
 @Injectable()
 export class UsersService {
 
-    private mapper: UserMapper = new UserMapper();
-
-    constructor(private usersRepository: UsersRepository){}
+    constructor(
+        private usersRepository: UsersRepository,
+        private mapper: UserMapper
+        ){}
 
     async getAllUsers(): Promise<UserDTO[]> {
         const users: UserEntity[] = await this.usersRepository.getAllUsers()

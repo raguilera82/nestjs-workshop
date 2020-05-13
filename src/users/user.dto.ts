@@ -2,9 +2,14 @@ import { ApiProperty } from "@nestjs/swagger";
 
 export class UserDTO {
     @ApiProperty()
-    id?: string;
+    readonly id?: string;
 
     @ApiProperty()
-    name: string;
+    readonly name: string;
 
+     constructor(id: string, name: string) {
+        this.id = id;
+        this.name = name;
+        console.log('Creo User DTO para ' + this.name);
+    }
 }

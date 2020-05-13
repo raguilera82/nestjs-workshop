@@ -8,9 +8,9 @@ import { UserMapper } from './user.mapper';
 @Injectable()
 export class UsersRepository {
 
-    private mapper: UserMapper = new UserMapper();
-
-    constructor(@InjectRepository(UserEntity) private usersRepository: Repository<UserEntity>){}
+    constructor(
+        @InjectRepository(UserEntity) private usersRepository: Repository<UserEntity>,
+        private mapper: UserMapper){}
 
     getAllUsers(): Promise<UserEntity[]> {
         return this.usersRepository.find();
@@ -20,13 +20,13 @@ export class UsersRepository {
         return this.usersRepository.findOne(id);
     }
 
-    newUser(userDTO: UserDTO): Promise<UserEntity> {
+    async newUser(userDTO: UserDTO): Promise<UserEntity> {
+        //await this.sleep(2000);
         const newUser = this.mapper.dtoToEntity(userDTO);
         return this.usersRepository.save(newUser);
     }
 
     async updateUser(id: string, userDTO: UserDTO): Promise<UserEntity> {
-        userDTO.id = id;
         const updateUser = this.mapper.dtoToEntity(userDTO);
         await this.usersRepository.update(id, updateUser);
         return this.usersRepository.findOne(id);
@@ -36,5 +36,11 @@ export class UsersRepository {
     deleteUser(id: string): Promise<DeleteResult> {
        return this.usersRepository.delete(id);
     }
+
+    sleep(ms) {
+        return new Promise((resolve) => {
+          setTimeout(resolve, ms);
+        });
+      }
 
 }

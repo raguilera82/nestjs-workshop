@@ -4,17 +4,11 @@ import { UserEntity } from "./user.entity";
 export class UserMapper {
 
     dtoToEntity(userDTO: UserDTO): UserEntity {
-        const userEntity: UserEntity = new UserEntity();
-        userEntity.userId = userDTO.id;
-        userEntity.name = userDTO.name;
-        return userEntity;
+        return new UserEntity(userDTO.id, userDTO.name);
     }
 
     entityToDto(userEntity: UserEntity): UserDTO {
-        const userDTO: UserDTO = new UserDTO();
-        userDTO.id = userEntity.userId;
-        userDTO.name = userEntity.name;
-        return userDTO;
+        return new UserDTO(userEntity.userId, userEntity.name);
     }
 
 }

@@ -4,11 +4,17 @@ import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 export class UserEntity {
 
     @PrimaryGeneratedColumn("uuid")
-    userId: string;
+    readonly userId: string;
 
     @Column({
         unique: true
     })
-    name: string;
+    readonly name: string;
+
+    constructor(userId: string, name: string) {
+        this.userId = userId;
+        this.name = name;
+        console.log('Creo User Entity para ' + this.name);
+    }
 
 }

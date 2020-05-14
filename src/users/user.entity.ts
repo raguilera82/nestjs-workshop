@@ -14,7 +14,6 @@ export class UserEntity {
     constructor(userId: string, name: string) {
         this.userId = userId;
         this.name = name;
-        console.log('Creo User Entity para ' + this.name);
     }
 
 }

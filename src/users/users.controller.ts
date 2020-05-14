@@ -19,7 +19,6 @@ export class UsersController {
 
     @Post()
     async newUser(@Body() user: UserDTO): Promise<UserDTO> {
-        //await this.sleep(2000);
         return await this.usersService.newUser(user);
     }
 
@@ -32,11 +31,5 @@ export class UsersController {
     async deleteUser(@Param('id') id: string): Promise<void> {
         return await this.usersService.deleteUser(id);
     }
-
-    sleep(ms) {
-        return new Promise((resolve) => {
-          setTimeout(resolve, ms);
-        });
-      }
 
 }

@@ -21,13 +21,13 @@ export class UsersRepository {
     }
 
     async newUser(userDTO: UserDTO): Promise<UserEntity> {
-        //await this.sleep(2000);
         const newUser = this.mapper.dtoToEntity(userDTO);
         return this.usersRepository.save(newUser);
     }
 
     async updateUser(id: string, userDTO: UserDTO): Promise<UserEntity> {
-        const updateUser = this.mapper.dtoToEntity(userDTO);
+        const updateUserDTO: UserDTO = new UserDTO(id, userDTO.name);
+        const updateUser = this.mapper.dtoToEntity(updateUserDTO);
         await this.usersRepository.update(id, updateUser);
         return this.usersRepository.findOne(id);
 
@@ -36,11 +36,5 @@ export class UsersRepository {
     deleteUser(id: string): Promise<DeleteResult> {
        return this.usersRepository.delete(id);
     }
-
-    sleep(ms) {
-        return new Promise((resolve) => {
-          setTimeout(resolve, ms);
-        });
-      }
 
 }

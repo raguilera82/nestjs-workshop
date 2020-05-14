@@ -20,8 +20,9 @@
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json --runInBand --detectOpenHandles --coverage",
     "db:up": "docker-compose up -d",
-    "db:down": "docker-compose down",
-    "verify": "npm run db:up && npm run lint && npm run test:cov && npm run test:e2e && ts-node ./merge-coverage.ts --report coverage/unit/coverage-final.json --report coverage/e2e/coverage-final.json && npm run db:down",
+    "db:down": "docker-compose down -v",
+    "merge:cov": "ts-node ./merge-coverage.ts --report coverage/unit/coverage-final.json --report coverage/e2e/coverage-final.json",
+    "verify": "npm run db:up && npm run lint && npm run test:cov && npm run test:e2e && npm run merge:cov && npm run db:down",
     "sonar": "sonar-scanner"
   },
   "dependencies": {
